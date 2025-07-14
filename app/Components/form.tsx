@@ -31,7 +31,11 @@ interface TouchedFields {
 	secretPin: boolean;
 }
 
-export default function InterestForm() {
+interface InterestFormProps {
+	fieldName: string;
+}
+
+export default function InterestForm({ fieldName }: InterestFormProps) {
 	const [formData, setFormData] = useState<FormData>({
 		firstName: "",
 		lastName: "",
@@ -61,7 +65,7 @@ export default function InterestForm() {
 		validateAirFryerGuess: (guess: string) => {
 			if (guess === "") return false;
 			const numValue = parseFloat(guess);
-			return !isNaN(numValue) && numValue > 0 && numValue <= 10000;
+			return !isNaN(numValue) && numValue > 0 && numValue <= 999999999.99;
 		},
 	};
 
@@ -78,7 +82,6 @@ export default function InterestForm() {
 			return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
 		},
 	};
-
 	const validateFields = useCallback((): FormErrors => {
 		const newErrors: FormErrors = {};
 
@@ -241,7 +244,7 @@ export default function InterestForm() {
 				<h2
 					className="text-2xl mb-6 text-center text-text"
 					style={{ fontFamily: "Raleway, sans-serif" }}>
-					Air Fryer Interest Form
+					{fieldName}
 				</h2>
 
 				<FormField
@@ -310,7 +313,7 @@ export default function InterestForm() {
 					id="airFryerGuess"
 					name="airFryerGuess"
 					type="text"
-					label="Guess the Air Fryer's Cost"
+					label="Guess the air fryer's Cost"
 					placeholder="0.00"
 					value={formData.airFryerGuess}
 					onChange={handleCostChange}
